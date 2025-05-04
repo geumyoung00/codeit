@@ -3,7 +3,7 @@ import path from 'path';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  // swcMinify: true,
   /* config options here */
   compiler: {
     styledComponents: true,
