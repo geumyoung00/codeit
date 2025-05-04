@@ -44,11 +44,11 @@ const Header = styled.header`
     height: inherit;
   }
 
-  @media screen and (max-width: 744px) {
+  @media screen and (max-width: 1199px) {
     /* 태블릿  */
   }
 
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 743px) {
     /* 모바일 */
     a {
       width: 70px;

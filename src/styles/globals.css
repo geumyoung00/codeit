@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F9FAFB;
-  --foreground: #1E293B;
+  --background: var(--color-gray-50);
+  --foreground: var(--color-slate-900);
 
   /* font set */
   --font-lg: 20px;
@@ -11,6 +11,8 @@
 
 @theme {
   --spacing: 1px;
+  --breakpoint-tab: 744px;
+  --breakpoint-desk: 1100px;
 }
 
 html {

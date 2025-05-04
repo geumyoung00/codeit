@@ -1,10 +1,14 @@
+'use client';
+
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div.attrs((props) => ({
+  className: props.className,
+}))`
   max-width: 1200px;
   margin: 0 auto;
 
-  @media screen and (min-width: 744px) {
+  @media screen and (max-width: 1199px) {
     /* 태블릿  */
     min-width: 0;
     width: calc(100% - 4.8rem);
@@ -17,3 +21,5 @@ export const Wrapper = styled.div`
     width: calc(100% - 3.2rem);
   }
 `;
+
+export { Wrapper };
