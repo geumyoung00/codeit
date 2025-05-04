@@ -5,6 +5,11 @@ import Logo from '@/assets/logo.svg';
 import Link from 'next/link';
 import { Wrapper } from '../Wrapper';
 
+/**Gnb 컴포넌트
+ * - 상단 헤더 영역 역할
+ * - 로고 이미지 클릭 시 홈으로 이동
+ */
+
 export const Gnb = () => {
   return (
     <Header className='bg-white border-b-1 border-slate-200'>

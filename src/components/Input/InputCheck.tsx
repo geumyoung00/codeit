@@ -1,26 +1,33 @@
 'use client';
 
 import styled, { css } from 'styled-components';
-import Check from '@/assets/checked.svg';
+import Check from '@/assets/ico_checked.svg';
 
+// InputCheck 컴포넌트의 props 타입
 interface InputCheckProps {
   isDetailed?: boolean;
   id: string;
+  label: string;
 }
 
+// styled-components 내부 props 타입
 interface StyledProps {
   $isDetailed?: boolean;
 }
 
-export const InputCheck = ({ isDetailed = false, id }: InputCheckProps) => {
+/* *체크박스 컴포넌트
+ * - 체크 여부에 따라 상태변경
+ * - 상세페이지(isDetailed)에서 정렬 방식 및 스타일 변경
+ */
+export const InputCheck = ({ isDetailed = false, id, label }: InputCheckProps) => {
   return (
     <CheckWrapper $isDetailed={isDetailed}>
       <Label $isDetailed={isDetailed} htmlFor={id}>
         <CheckboxInput type='checkbox' id={id} />
-        <IconWrapper>
+        <IconWrapper aria-hidden='true'>
           <Check />
         </IconWrapper>
-        <strong className='font-normal'>TEST TEXT</strong>
+        <strong>{label}</strong>
       </Label>
     </CheckWrapper>
   );
@@ -34,6 +41,10 @@ const CheckWrapper = styled.div<StyledProps>`
   transition: 0.1s all ease-in-out;
   border-radius: ${(props) => (props.$isDetailed ? '2.4rem' : '2.7rem')};
 
+  &:hover,
+  & > *:hover {
+    cursor: pointer;
+  }
   &:has(input[type='checkbox']:checked) {
     background: #ede9fe;
   }
@@ -69,11 +80,11 @@ const IconWrapper = styled.i`
   align-items: center;
   width: 3.2rem;
   height: 3.2rem;
-  background: #fefce8;
-  border-radius: 50%;
-  border: 2px solid #0f172a;
-  transition: 0.1s all ease-in-out;
   margin-right: 1.6rem;
+  background: var(--color-yellow-50);
+  border-radius: 50%;
+  border: 2px solid var(--color-slate-900);
+  transition: 0.1s all ease-in-out;
 
   svg {
     opacity: 0;
@@ -82,13 +93,18 @@ const IconWrapper = styled.i`
 `;
 
 const CheckboxInput = styled.input`
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+
+  &:focus + ${IconWrapper} {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
 
   &:checked + ${IconWrapper} {
-    background: #7c3aed;
-    border-color: #7c3aed;
+    background: var(--color-violet-600);
+    border-color: var(--color-violet-600);
 
     svg {
       opacity: 1;
