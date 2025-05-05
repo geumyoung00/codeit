@@ -1,16 +1,18 @@
 interface todoProps {
   isCompleted: boolean;
   name: string;
+  tenantId?: string;
+  memo?: string | null;
+  imageUrl?: string | null;
   id: number;
 }
 
-interface todoDetaileProps {
-  isCompleted: boolean;
-  imageUrl: string;
-  memo: string;
-  name: string;
-  tenantId: string;
-  id: number;
+interface TodoStoreState {
+  todos: todoProps[];
+  done: todoProps[];
+  fetchTodos: () => Promise<void>;
+  addTodo: (todo: string | undefined) => Promise<void>;
+  handleUpdate: (id: number, isCompleted: boolean) => Promise<void>;
 }
 
-export { todoProps, todoDetaileProps };
+export { TodoProps, TodoStoreState };

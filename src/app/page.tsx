@@ -3,27 +3,28 @@
 import { Button } from '@/components/Buttons/Button';
 import { InputText } from '@/components/Input/InputText';
 import { Wrapper } from '@/components/Wrapper';
-import { todoProps } from '@/types/todos';
-import { useState } from 'react';
-import { TodoSection } from '../components/ToDo';
+import { useEffect, useState } from 'react';
+import { TodoSection } from '../components/ToDos';
 import ImgTodo from '@/assets/img_todo.svg';
 import ImgDone from '@/assets/img_done.svg';
 import EmptyTodo from '@/assets/img_todo_empty.svg';
 import EmptyDone from '@/assets/img_done_empty.svg';
 import { handleInputChange } from '@/actions/inputTextAction';
-import { addToDo, message } from '@/actions/todoAction';
+import { useTodoStore } from '@/sotre/store';
 
 export default function Home() {
-  const [todos, setTodos] = useState<todoProps[]>([]);
+  const { todos, done, fetchTodos, addTodo } = useTodoStore();
   const [text, setText] = useState<string | undefined>();
   const handleChange = handleInputChange(setText);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    fetchTodos();
+  }, [fetchTodos]);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addToDo(text);
-    if (message) {
-      console.log(message);
-    }
+    await addTodo(text);
+    setText('');
   };
 
   return (
@@ -33,10 +34,11 @@ export default function Home() {
         {todos ? <Button /> : <Button type='empty' />}
       </form>
 
-      <section className='mt-40 flex flex-col gap-48 desk:grid desk:grid-cols-2 desk:gap-24'>
+      <section className='my-24 flex flex-col gap-48 desk:grid desk:grid-cols-2 desk:gap-24'>
         <TodoSection
           title='To Do'
           img={ImgTodo}
+          arr={todos}
           emptyImg={EmptyTodo}
           message={
             <>
@@ -49,6 +51,7 @@ export default function Home() {
         <TodoSection
           title='Done'
           img={ImgDone}
+          arr={done}
           emptyImg={EmptyDone}
           message={
             <>
