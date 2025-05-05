@@ -1,6 +1,6 @@
 'use client';
 
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface InputTextProps {
@@ -16,7 +16,7 @@ export const InputText: React.FC<InputTextProps> = ({ text = '', onChange }) => 
         type='text'
         id='textTest'
         className='font-normal'
-        defaultValue={text ? text : ''}
+        value={text}
         placeholder='할 일을 입력해주세요'
         onChange={onChange}
       />

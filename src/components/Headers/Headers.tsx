@@ -28,6 +28,8 @@ export const Gnb = () => {
 const Header = styled.header`
   padding: 1rem 0;
   margin-bottom: 2.4rem;
+  position: sticky;
+  top: 0;
 
   h1 {
     text-indent: -9999px;
