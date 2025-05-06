@@ -1,4 +1,4 @@
-import { addToDoAction, fetchTodoAction, updateToDoAction } from '@/actions/todoAction';
+import { addToDoAction, fetchTodoAction, updateToDoAction } from '@/actions/todoApi';
 import { TodoProps, TodoStoreState } from '@/types/todos';
 import { create } from 'zustand';
 

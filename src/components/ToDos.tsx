@@ -1,7 +1,7 @@
 'use client';
 
 import { TodoProps } from '@/types/todos';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { InputCheck } from './Input/InputCheck';
 import { useTodoStore } from '@/sotre/store';
@@ -47,6 +47,13 @@ export function TodoSection({
   // Zustand에서 handleUpdate 가져오기
   const { handleUpdate } = useTodoStore();
 
+  const onChange = useCallback(
+    (id: number, isCompleted: boolean) => {
+      handleUpdate(id, !isCompleted);
+    },
+    [handleUpdate]
+  );
+
   return (
     <ToDoWraaper>
       <ToDoTitle>
@@ -66,7 +73,7 @@ export function TodoSection({
               id={el.id}
               label={el.name}
               isChecked={el.isCompleted}
-              onChange={() => handleUpdate(el.id, !el.isCompleted)} // 체크박스 변경 시 handleUpdate 호출
+              onChange={() => onChange(el.id, !el.isCompleted)} // 체크박스 변경 시 handleUpdate 호출
             />
           ))}
         </div>

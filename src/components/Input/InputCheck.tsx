@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import styled, { css } from 'styled-components';
 import Check from '@/assets/ico_checked.svg';
 
@@ -21,19 +22,22 @@ interface StyledProps {
  * - 체크 여부에 따라 상태변경
  * - 상세페이지(isDetailed)에서 정렬 방식 및 스타일 변경
  */
-export const InputCheck = ({ isDetailed = false, id, label, isChecked, onChange }: InputCheckProps) => {
-  return (
-    <CheckWrapper $isDetailed={isDetailed}>
-      <Label $isDetailed={isDetailed} htmlFor={id.toString()}>
-        <CheckboxInput type='checkbox' id={id.toString()} onChange={onChange} defaultChecked={isChecked} />
-        <IconWrapper aria-hidden='true'>
-          <Check />
-        </IconWrapper>
-      </Label>
-      <strong>{label}</strong>
-    </CheckWrapper>
-  );
-};
+
+export const InputCheck: React.FC<InputCheckProps> = React.memo(
+  ({ isDetailed = false, id, label, isChecked, onChange }) => {
+    return (
+      <CheckWrapper $isDetailed={isDetailed}>
+        <Label $isDetailed={isDetailed} htmlFor={id.toString()}>
+          <CheckboxInput type='checkbox' id={id.toString()} onChange={onChange} defaultChecked={isChecked} />
+          <IconWrapper aria-hidden='true'>
+            <Check />
+          </IconWrapper>
+        </Label>
+        <strong>{label}</strong>
+      </CheckWrapper>
+    );
+  }
+);
 
 const CheckWrapper = styled.div<StyledProps>`
   display: flex;
