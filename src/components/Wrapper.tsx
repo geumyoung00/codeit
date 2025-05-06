@@ -25,10 +25,22 @@ const Wrapper = styled.div.attrs((props) => ({
 
 const Container = styled(Wrapper)`
   min-height: calc(100vh - 6rem);
+  padding-top: 2.4rem;
 
   @media screen and (max-width: 743px) {
     padding-top: 1.6rem;
   }
 `;
 
-export { Wrapper, Container };
+const SubContainer = styled(Container)`
+  &:has(form) {
+    section,
+    form > div {
+      max-width: 996px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+`;
+
+export { Wrapper, Container, SubContainer };

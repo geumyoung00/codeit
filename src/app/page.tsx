@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/Buttons/Button';
 import { InputText } from '@/components/Input/InputText';
-import { Wrapper } from '@/components/Wrapper';
+import { Container } from '@/components/Wrapper';
 import { useEffect, useState } from 'react';
 import { TodoSection } from '../components/ToDos';
 import ImgTodo from '@/assets/img_todo.svg';
@@ -28,7 +28,7 @@ export default function Home() {
   };
 
   return (
-    <Wrapper>
+    <Container className=''>
       <form onSubmit={onSubmit} className='w-full flex gap-8 tab:gap-16'>
         <InputText text={text} onChange={handleChange} />
         {todos ? <Button /> : <Button type='empty' />}
@@ -62,6 +62,6 @@ export default function Home() {
           }
         />
       </section>
-    </Wrapper>
+    </Container>
   );
 }

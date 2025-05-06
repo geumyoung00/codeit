@@ -2,7 +2,7 @@
 
 import Img from '@/components/Img';
 import { InputCheck } from '@/components/Input/InputCheck';
-import { Container } from '@/components/Wrapper';
+import { SubContainer } from '@/components/Wrapper';
 import { useTodoStore } from '@/sotre/store';
 import { useRouter, useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
@@ -44,7 +44,7 @@ export default function DetailPage() {
   }, [fetchTodo]);
 
   return (
-    <Container className='bg-white'>
+    <SubContainer className='bg-white'>
       <form onSubmit={onSubmit}>
         <section className='mb-17'>
           <InputCheck
@@ -56,18 +56,18 @@ export default function DetailPage() {
             isDetailed
           />
         </section>
-        <section className='relative mb-15'>
-          <Img url={todo?.imageUrl} />
-          <PhotoBtn url={todo?.imageUrl} />
-        </section>
-        <section>
+        <section className='desk:flex desk:gap-24'>
+          <div className='relative mb-15 desk:w-[384px] desk:shrink-0'>
+            <Img url={todo?.imageUrl} />
+            <PhotoBtn url={todo?.imageUrl} />
+          </div>
           <Memo memo={todo?.memo} />
         </section>
-        <div className='w-full flex gap-7 items-center justify-center my-24'>
+        <div className='w-full flex gap-7 items-center justify-center my-24 desk:justify-end'>
           <Button type={todo?.isCompleted ? 'activeEdit' : 'edit'} />
           <Button type='delete' onClick={handleDelete} />
         </div>
       </form>
-    </Container>
+    </SubContainer>
   );
 }
