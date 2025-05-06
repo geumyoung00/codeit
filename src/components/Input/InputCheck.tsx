@@ -1,8 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import Check from '@/assets/ico_checked.svg';
+import Link from 'next/link';
+import { handleInputChange } from '@/actions/inputTextAction';
 
 // InputCheck 컴포넌트의 props 타입
 interface InputCheckProps {
@@ -22,27 +24,59 @@ interface StyledProps {
  * - 체크 여부에 따라 상태변경
  * - 상세페이지(isDetailed)에서 정렬 방식 및 스타일 변경
  */
+export const InputCheck: React.FC<InputCheckProps> = ({ isDetailed = false, id, label, isChecked, onChange }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [text, setText] = useState<string | undefined>('');
+  const handleCahngeInput = handleInputChange(setText);
 
-export const InputCheck: React.FC<InputCheckProps> = React.memo(
-  ({ isDetailed = false, id, label, isChecked, onChange }) => {
-    return (
-      <CheckWrapper $isDetailed={isDetailed}>
-        <Label $isDetailed={isDetailed} htmlFor={id.toString()}>
-          <CheckboxInput type='checkbox' id={id.toString()} onChange={onChange} defaultChecked={isChecked} />
-          <IconWrapper aria-hidden='true'>
-            <Check />
-          </IconWrapper>
-        </Label>
-        <strong>{label}</strong>
-      </CheckWrapper>
-    );
-  }
-);
+  useEffect(() => {
+    setText(label);
+  }, []);
+
+  useEffect(() => {
+    if (inputRef.current && text) {
+      inputRef.current.style.width = `${text.length + 2 || 1}ch`;
+    }
+  }, [text]);
+
+  return (
+    <CheckWrapper $isDetailed={isDetailed}>
+      <Label $isDetailed={isDetailed} htmlFor={id.toString()}>
+        <CheckboxInput
+          type='checkbox'
+          id={id.toString()}
+          name={isDetailed ? 'check' : label}
+          onChange={onChange}
+          defaultChecked={isChecked}
+        />
+        <IconWrapper aria-hidden='true'>
+          <Check />
+        </IconWrapper>
+      </Label>
+      {isDetailed ? (
+        <>
+          <input
+            type='text'
+            name='name'
+            id='editToDo'
+            autoComplete='off'
+            value={text}
+            onChange={handleCahngeInput}
+            ref={inputRef}
+          />
+        </>
+      ) : (
+        <Link href={`/todos/${id}`}>
+          <strong>{label}</strong>
+        </Link>
+      )}
+    </CheckWrapper>
+  );
+};
 
 const CheckWrapper = styled.div<StyledProps>`
   display: flex;
   align-items: center;
-  padding: 0.9rem 1.2rem;
   background: #fff;
   border: 2px solid #0f172a;
   box-sizing: border-box;
@@ -60,30 +94,33 @@ const CheckWrapper = styled.div<StyledProps>`
       text-decoration: line-through;
     }
   }
-`;
 
-const Label = styled.label<StyledProps>`
-  display: flex;
-  align-items: center;
+  &:has(input[type='text']) {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+
+    input[type='text'] {
+      cursor: text;
+      text-decoration: underline;
+    }
+  }
 
   ${(props) =>
     props.$isDetailed
       ? css`
           justify-content: center;
-          strong {
-            text-decoration: underline;
-            font-size: 2rem;
-            font-weight: 700;
-          }
+          padding: 1.6rem 0;
         `
       : css`
           justify-content: flex-start;
-          &:has(input[type='checkbox']:checked) {
-            strong {
-              text-decoration: line-through;
-            }
-          }
+          padding: 0.9rem 1.2rem;
         `}
+`;
+
+const Label = styled.label<StyledProps>`
+  display: flex;
+  align-items: center;
 `;
 
 const IconWrapper = styled.i`

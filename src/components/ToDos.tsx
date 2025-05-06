@@ -48,8 +48,8 @@ export function TodoSection({
   const { handleUpdate } = useTodoStore();
 
   const onChange = useCallback(
-    (id: number, isCompleted: boolean) => {
-      handleUpdate(id, !isCompleted);
+    (id: number, isDetail: boolean) => {
+      handleUpdate(id, isDetail);
     },
     [handleUpdate]
   );
@@ -73,7 +73,7 @@ export function TodoSection({
               id={el.id}
               label={el.name}
               isChecked={el.isCompleted}
-              onChange={() => onChange(el.id, !el.isCompleted)} // 체크박스 변경 시 handleUpdate 호출
+              onChange={() => onChange(el.id, false)} // 체크박스 변경 시 handleUpdate 호출
             />
           ))}
         </div>

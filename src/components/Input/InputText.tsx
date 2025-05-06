@@ -14,7 +14,7 @@ export const InputText: React.FC<InputTextProps> = ({ text = '', onChange }) => 
     <InputTextWrapper className='bg-slate-100 border-2 rounded-[24px] border-slate-950 flex items-center'>
       <input
         type='text'
-        id='textTest'
+        id='writeToDo'
         className='font-normal'
         value={text}
         placeholder='할 일을 입력해주세요'

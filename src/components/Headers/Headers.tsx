@@ -13,7 +13,7 @@ import { Wrapper } from '../Wrapper';
 export const Gnb = () => {
   return (
     <Header className='bg-white border-b-1 border-slate-200'>
-      <Wrapper>
+      <Wrapper className=''>
         <h1 className='-indent-9999'>
           두잇 투두리스트
           <Link href='/' title='홈으로'>
@@ -27,9 +27,10 @@ export const Gnb = () => {
 
 const Header = styled.header`
   padding: 1rem 0;
-  margin-bottom: 2.4rem;
+  height: 6rem;
   position: sticky;
   top: 0;
+  box-sizing: border-box;
 
   h1 {
     text-indent: -9999px;

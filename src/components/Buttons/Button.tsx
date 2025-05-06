@@ -18,12 +18,12 @@ interface styledBtnProps {
 
 interface BtnProps {
   type?: string;
+  onClick?: () => void;
   className?: string;
 }
 
-export const Button = ({ type, className }: BtnProps) => {
-  const label =
-    type === 'edit' ? '수정하기' : type === 'save' ? '수정 완료' : type === 'delete' ? '삭제하기' : '추가하기';
+export const Button = ({ type, onClick, className }: BtnProps) => {
+  const label = type === 'edit' || type === 'activeEdit' ? '수정 완료' : type === 'delete' ? '삭제하기' : '추가하기';
 
   return (
     <BtnWrapper $type={type} className={className}>
@@ -32,13 +32,13 @@ export const Button = ({ type, className }: BtnProps) => {
           <Edit />
           {label}
         </Btn>
-      ) : type === 'save' ? (
+      ) : type === 'activeEdit' ? (
         <Btn className='bg-lime-300'>
           <Edit />
           {label}
         </Btn>
       ) : type === 'delete' ? (
-        <Btn className='bg-rose-500 text-white'>
+        <Btn className='bg-rose-500 text-white' type='button' onClick={onClick}>
           <Delete />
           {label}
         </Btn>
@@ -68,7 +68,7 @@ const BtnWrapper = styled.div.attrs((props) => ({
   box-sizing: border-box;
   flex-shrink: 0;
 
-  &::before {
+  &::after {
     display: block;
     content: '';
     width: calc(100% - 0.365rem);
@@ -78,12 +78,11 @@ const BtnWrapper = styled.div.attrs((props) => ({
     top: 4px;
     left: 0.365rem;
     border-radius: 2.4rem;
-    z-index: -1;
   }
 
   ${(props) =>
     props.$type !== 'edit' &&
-    props.$type !== 'save' &&
+    props.$type !== 'activeEdit' &&
     props.$type !== 'delete' &&
     css`
       @media screen and (max-width: 1199px) {
@@ -114,6 +113,8 @@ const Btn = styled.button<styledBtnProps>`
   height: 100%;
   border: 2px solid var(--color-slate-900);
   border-radius: 2.4rem;
+  position: relative;
+  z-index: 1;
 
   &:hover {
     cursor: pointer;
