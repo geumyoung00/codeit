@@ -92,26 +92,37 @@ export const useTodoStore = create<TodoStoreState>((set, get) => ({
       set({ todo: updatedTodo });
     }
   },
-  updateTodoDetail: async ({ id, name, memo, image, isCompleted }) => {
-    try {
-      if (!(image instanceof File)) throw new Error('이미지 파일을 선택해주세요.');
+  updateTodoDetail: async ({ id, name, memo, image }) => {
+    const { todo } = get();
+    if (!todo) return;
 
+    const { imageUrl } = todo;
+
+    if (!(image instanceof File)) throw new Error('이미지 파일을 선택해주세요.');
+
+    if (imageUrl && image.name === '') {
+      try {
+        await updateTodoDetailAction({ name, memo, isCompleted: todo.isCompleted, id });
+      } catch (error) {
+        if (error instanceof Error) alert(error.message);
+      }
+    }
+
+    if (!imageUrl) {
       const isEnglishName = image.name === '' || /^[A-Za-z0-9._-]+$/.test(image.name);
       if (!isEnglishName) throw new Error('파일명은 영문과 숫자만 가능합니다.');
 
       const isSizeValid = image.size <= 5 * 1024 * 1024;
       if (!isSizeValid) throw new Error('파일 크기는 5MB 이하여야 합니다.');
 
-      let imageUrl = '';
+      const { url } = await updateImageAction(image);
+      const imageUrl = url; // 이미지 URL 저장
 
-      if (image.name !== '') {
-        const { url } = await updateImageAction(image);
-        imageUrl = url; // 이미지 URL 저장
+      try {
+        await updateTodoDetailAction({ name, memo, imageUrl, isCompleted: todo.isCompleted, id });
+      } catch (error) {
+        if (error instanceof Error) alert(error.message);
       }
-
-      await updateTodoDetailAction({ name, memo, imageUrl, isCompleted, id });
-    } catch (error) {
-      if (error instanceof Error) alert(error.message);
     }
   },
 }));

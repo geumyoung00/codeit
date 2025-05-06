@@ -21,12 +21,14 @@ interface TodoStoreState {
     memo,
     image,
     isCompleted,
+    imageUrl,
   }: {
     id: string;
     name: string;
-    memo: string | null;
-    image: FormDataEntryValue | null;
+    memo?: string | null;
+    image?: FormDataEntryValue | null;
     isCompleted: boolean;
+    imageUrl?: string;
   }) => Promise<void>;
 }
 

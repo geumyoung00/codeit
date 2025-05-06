@@ -15,7 +15,6 @@ export default function DetailPage() {
   const { fetchTodo, todo, handleUpdate, updateTodoDetail } = useTodoStore();
   const { id } = useParams();
   const router = useRouter();
-
   const onChange = useCallback((id: number, isDetail: boolean) => {
     handleUpdate(id, isDetail);
   }, []);
@@ -26,7 +25,6 @@ export default function DetailPage() {
     const memo = formData.get('memo') as string | null;
     const name = formData.get('name') as string;
     const image: FormDataEntryValue | null = formData.get('image');
-
     const isCompleted = formData.get('checkboxName') === 'on';
 
     updateTodoDetail({ id: id as string, name, memo, image, isCompleted });
@@ -59,7 +57,7 @@ export default function DetailPage() {
         <section className='desk:flex desk:gap-24'>
           <div className='relative mb-15 desk:w-[384px] desk:shrink-0'>
             <Img url={todo?.imageUrl} />
-            <PhotoBtn url={todo?.imageUrl} />
+            <PhotoBtn imageUrl={todo?.imageUrl} />
           </div>
           <Memo memo={todo?.memo} />
         </section>

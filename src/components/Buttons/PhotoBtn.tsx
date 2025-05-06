@@ -8,7 +8,7 @@ import { useRef } from 'react';
 /**Todo 상세 이미지 버튼 컴포넌트
  *  - type : add(empty), edit
  */
-export const PhotoBtn = ({ url }: { url?: string | null }) => {
+export const PhotoBtn = ({ imageUrl }: { imageUrl?: string | null }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -17,21 +17,22 @@ export const PhotoBtn = ({ url }: { url?: string | null }) => {
       fileInputRef.current?.click();
     }
   };
+
   return (
     <>
       <Btn
         type='button'
         tabIndex={0}
         onKeyDown={handleKeyDown}
-        aria-label={url ? '사진 수정' : '사진 추가'}
-        className={url ? 'bg-slate-900/50 border-2 border-s-slate-900' : 'bg-slate-200'}
+        aria-label={imageUrl ? '사진 수정' : '사진 추가'}
+        className={imageUrl ? 'bg-slate-900/50 border-2 border-s-slate-900' : 'bg-slate-200'}
       >
-        <AttachFileLabel htmlFor={url ? 'editPhoto' : 'addPhoto'}>
-          {url ? <PhotoEdit /> : <PhotoPlus />}
+        <AttachFileLabel htmlFor={imageUrl ? 'editPhoto' : 'addPhoto'}>
+          {imageUrl ? <PhotoEdit /> : <PhotoPlus />}
         </AttachFileLabel>
         <AttachFileInput
           type='file'
-          id={url ? 'editPhoto' : 'addPhoto'}
+          id={imageUrl ? 'editPhoto' : 'addPhoto'}
           name='image'
           ref={fileInputRef}
           tabIndex={-1}
