@@ -74,18 +74,22 @@ export const useTodoStore = create<TodoStoreState>((set, get) => ({
       const { todos, done } = get();
       const allTodos = [...todos, ...done];
       const target = allTodos.find((item) => item.id === id);
+
+      console.log(target);
+
       if (!target) return;
 
       // 로컬 상태를 즉시 업데이트
-      const updatedTodo = { ...target, isCompleted: !target!.isCompleted };
+      const updatedTodo = { ...target, isCompleted: !target.isCompleted };
       const updatedList = allTodos.map((todo) => (todo.id === id ? updatedTodo : todo));
+
+      set({
+        todos: updatedList.filter((todo) => !todo.isCompleted),
+        done: updatedList.filter((todo) => todo.isCompleted),
+      });
 
       try {
         await updateToDoAction(id, updatedTodo.isCompleted);
-        set({
-          todos: updatedList.filter((t) => !t.isCompleted),
-          done: updatedList.filter((t) => t.isCompleted),
-        });
       } catch (error) {
         if (error instanceof Error) alert(error.message);
       }
@@ -96,28 +100,24 @@ export const useTodoStore = create<TodoStoreState>((set, get) => ({
     const { todo } = get();
     if (!todo) return;
 
-    const { imageUrl } = todo;
-
     try {
       if (!(image instanceof File)) throw new Error('이미지 파일을 선택해주세요.');
 
-      // 이미지가 기존에 있고 새 파일 선택 안 했을 때
-      if (imageUrl && image.name === '') {
+      // 새 파일 선택 안 했을 때
+      if (image.name === '') {
         await updateTodoDetailAction({ name, memo, isCompleted: todo.isCompleted, id });
         return;
       }
 
-      if (!imageUrl) {
-        if (!(image instanceof File)) throw new Error('이미지 파일을 선택해주세요.');
-        const isValidName = /^[A-Za-z0-9._-]+$/.test(image.name);
-        if (!isValidName) throw new Error('파일명은 영문과 숫자만 가능합니다.');
+      const isValidName = /^[A-Za-z0-9._-]+$/.test(image.name);
+      if (!isValidName) throw new Error('파일명은 영문과 숫자만 가능합니다.');
 
-        const isSizeValid = image.size <= 5 * 1024 * 1024;
-        if (!isSizeValid) throw new Error('파일 크기는 5MB 이하여야 합니다.');
+      const isSizeValid = image.size <= 5 * 1024 * 1024;
+      if (!isSizeValid) throw new Error('파일 크기는 5MB 이하여야 합니다.');
 
-        const { url } = await updateImageAction(image); // 이미지 업로드
-        await updateTodoDetailAction({ name, memo, imageUrl: url, isCompleted: todo.isCompleted, id });
-      }
+      const { url } = await updateImageAction(image); // 이미지 업로드
+
+      await updateTodoDetailAction({ name, memo, imageUrl: url, isCompleted: todo.isCompleted, id });
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }

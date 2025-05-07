@@ -14,7 +14,7 @@ interface TodoStoreState {
   fetchTodos: () => Promise<void>;
   fetchTodo: (id: string) => Promise<void>;
   addTodo: (todo: string | undefined) => Promise<void>;
-  handleUpdate: (id: number, isDetail: boolean) => Promise<void>;
+  handleUpdate: (id: number, isDetail?: boolean) => Promise<void>;
   updateTodoDetail: ({
     id,
     name,

@@ -15,7 +15,7 @@ export default function Img({ url }: { url?: string | null }) {
 
   return (
     <ImgWrapper className={!hasImage ? 'border-2 border-slate-300 border-dashed flex justify-center items-center' : ''}>
-      {hasImage ? <Image src={url!} alt='할 일 이미지' /> : <ImgPhoto />}
+      {hasImage ? <Image src={url!} fill alt='할 일 이미지' priority /> : <ImgPhoto />}
     </ImgWrapper>
   );
 }
@@ -29,6 +29,7 @@ const ImgWrapper = styled.div`
   background: var(--color-slate-50);
   border-radius: 24px;
   overflow: hidden;
+  position: relative;
 
   img {
     width: 100%;
