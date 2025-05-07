@@ -39,7 +39,7 @@ export default function Home() {
       {/* 새로운 할 일 입력폼 */}
       <form onSubmit={handleSubmit} className='w-full flex gap-8 tab:gap-16'>
         <InputText text={text} onChange={handleChange} />
-        <Button type={todos && todos.length > 0 ? '' : 'empty'} />
+        <Button type='submit' actionType={todos && todos.length > 0 ? '' : 'empty'} />
       </form>
 
       {/* 해야할 일 목록 */}

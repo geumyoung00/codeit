@@ -6,7 +6,7 @@
  * - 항목이 없으면 안내 메시지 출력
  */
 
-import { ReactNode, useCallback } from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { useTodoStore } from '@/sotre/store';
 import { TodoProps } from '@/types/todos';

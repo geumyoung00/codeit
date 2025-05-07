@@ -7,6 +7,7 @@
  */
 
 import styled from 'styled-components';
+import Image from 'next/image';
 import ImgPhoto from '@/assets/img_photo.svg';
 
 export default function Img({ url }: { url?: string | null }) {
@@ -14,7 +15,7 @@ export default function Img({ url }: { url?: string | null }) {
 
   return (
     <ImgWrapper className={!hasImage ? 'border-2 border-slate-300 border-dashed flex justify-center items-center' : ''}>
-      {hasImage ? <img src={url!} alt='할 일 이미지' /> : <ImgPhoto />}
+      {hasImage ? <Image src={url!} alt='할 일 이미지' /> : <ImgPhoto />}
     </ImgWrapper>
   );
 }

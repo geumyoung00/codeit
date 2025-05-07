@@ -3,7 +3,7 @@ import localFont from 'next/font/local';
 import '../styles/globals.css';
 import { Gnb } from '@/components/Headers/Headers';
 
-export const NanumSquare = localFont({
+const NanumSquare = localFont({
   src: [
     {
       path: '../../public/fonts/NanumSquareR.woff',

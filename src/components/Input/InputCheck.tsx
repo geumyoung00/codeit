@@ -36,7 +36,7 @@ export const InputCheck = ({ isDetailed = false, id, label, isChecked, onChange 
   // 텍스트 상태를 부모로부터 받은 label로 초기화
   useEffect(() => {
     setText(label);
-  }, []);
+  }, [label]);
 
   /**입력 필드의 길이에 따라 width 조절 */
   useEffect(() => {
