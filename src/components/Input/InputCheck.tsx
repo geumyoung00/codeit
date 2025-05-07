@@ -1,9 +1,18 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+/**
+ * 체크박스 컴포넌트
+ * - 기본 또는 상세 페이지에서 사용
+ * - 체크박스 및 텍스트 입력 혹은 링크로 구성
+ * - 체크 시 배경 변경 및 텍스트 스타일 변화
+ */
+
+import { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
+
 import Check from '@/assets/ico_checked.svg';
 import Link from 'next/link';
+
 import { handleInputChange } from '@/actions/inputTextAction';
 
 // InputCheck 컴포넌트의 props 타입
@@ -20,24 +29,23 @@ interface StyledProps {
   $isDetailed?: boolean;
 }
 
-/* *체크박스 컴포넌트
- * - 체크 여부에 따라 상태변경
- * - 상세페이지(isDetailed)에서 정렬 방식 및 스타일 변경
- */
-export const InputCheck: React.FC<InputCheckProps> = ({ isDetailed = false, id, label, isChecked, onChange }) => {
+export const InputCheck = ({ isDetailed = false, id, label, isChecked, onChange }: InputCheckProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [text, setText] = useState<string | undefined>('');
-  const handleCahngeInput = handleInputChange(setText);
 
+  // 텍스트 상태를 부모로부터 받은 label로 초기화
   useEffect(() => {
     setText(label);
   }, []);
 
+  /**입력 필드의 길이에 따라 width 조절 */
   useEffect(() => {
     if (inputRef.current && text) {
-      inputRef.current.style.width = `${text.length + 2 || 1}ch`;
+      inputRef.current.style.width = `${Math.max(text.length + 2, 1)}ch`;
     }
   }, [text]);
+
+  const handleCahngeInput = handleInputChange(setText);
 
   return (
     <CheckWrapper $isDetailed={isDetailed}>
@@ -74,6 +82,7 @@ export const InputCheck: React.FC<InputCheckProps> = ({ isDetailed = false, id, 
   );
 };
 
+// 전체 체크박스 영역 wrapper 스타일
 const CheckWrapper = styled.div<StyledProps>`
   display: flex;
   align-items: center;
@@ -118,11 +127,13 @@ const CheckWrapper = styled.div<StyledProps>`
         `}
 `;
 
+// 라벨 안에 체크박스와 아이콘 포함
 const Label = styled.label<StyledProps>`
   display: flex;
   align-items: center;
 `;
 
+// 체크 상태 표시 아이콘
 const IconWrapper = styled.i`
   display: flex;
   justify-content: center;
@@ -141,6 +152,7 @@ const IconWrapper = styled.i`
   }
 `;
 
+// 실제 체크박스는 숨기고 focus/checked 상태만 제어
 const CheckboxInput = styled.input`
   position: absolute;
   opacity: 0;

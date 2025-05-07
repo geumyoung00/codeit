@@ -1,8 +1,9 @@
 'use client';
 
 import styled from 'styled-components';
-import Logo from '@/assets/logo.svg';
 import Link from 'next/link';
+
+import Logo from '@/assets/logo.svg';
 import { Wrapper } from '../Wrapper';
 
 /**Gnb 컴포넌트

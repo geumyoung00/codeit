@@ -1,23 +1,21 @@
 'use client';
 
-import ImgPhoto from '@/assets/img_photo.svg';
+/**
+ * Img 컴포넌트
+ * - url이 존재하면 해당 이미지를 출력
+ * - 존재하지 않으면 플레이스홀더 이미지(아이콘)를 표시
+ */
+
 import styled from 'styled-components';
+import ImgPhoto from '@/assets/img_photo.svg';
 
 export default function Img({ url }: { url?: string | null }) {
+  const hasImage = !!url;
+
   return (
-    <>
-      {url ? (
-        //url 있을 떄
-        <ImgWrapper>
-          <img src={`${url}`} />
-        </ImgWrapper>
-      ) : (
-        // url 없을 때
-        <ImgWrapper className='border-2 border-slate-300 border-dashed flex justify-center items-center'>
-          <ImgPhoto />
-        </ImgWrapper>
-      )}
-    </>
+    <ImgWrapper className={!hasImage ? 'border-2 border-slate-300 border-dashed flex justify-center items-center' : ''}>
+      {hasImage ? <img src={url!} alt='할 일 이미지' /> : <ImgPhoto />}
+    </ImgWrapper>
   );
 }
 

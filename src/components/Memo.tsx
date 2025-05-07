@@ -1,19 +1,21 @@
 'use client';
 
-import { handleInputChange } from '@/actions/inputTextAction';
+/**
+ * Memo 컴포넌트
+ * - 기존 메모 내용이 있으면 입력 필드에 표시
+ * - 없으면 placeholder로 안내 문구 출력
+ */
+
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { handleInputChange } from '@/actions/inputTextAction';
 
 export default function Memo({ memo }: { memo: string | undefined | null }) {
   const [text, setText] = useState<string | undefined>('');
   const handleInput = handleInputChange(setText);
 
   useEffect(() => {
-    if (!memo) {
-      setText('');
-      return;
-    }
-    setText(memo);
+    setText(memo || '');
   }, [memo]);
 
   return (
@@ -33,7 +35,7 @@ export default function Memo({ memo }: { memo: string | undefined | null }) {
 
 const MemoWrapper = styled.div`
   display: flex;
-  flex-flow: column nowrap;
+  flex-direction: column;
   text-align: center;
   width: 100%;
   height: 311px;
