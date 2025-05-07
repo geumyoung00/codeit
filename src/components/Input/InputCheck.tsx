@@ -1,8 +1,19 @@
 'use client';
 
-import React from 'react';
+/**
+ * 체크박스 컴포넌트
+ * - 기본 또는 상세 페이지에서 사용
+ * - 체크박스 및 텍스트 입력 혹은 링크로 구성
+ * - 체크 시 배경 변경 및 텍스트 스타일 변화
+ */
+
+import { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
+
 import Check from '@/assets/ico_checked.svg';
+import Link from 'next/link';
+
+import { handleInputChange } from '@/actions/inputTextAction';
 
 // InputCheck 컴포넌트의 props 타입
 interface InputCheckProps {
@@ -18,31 +29,63 @@ interface StyledProps {
   $isDetailed?: boolean;
 }
 
-/* *체크박스 컴포넌트
- * - 체크 여부에 따라 상태변경
- * - 상세페이지(isDetailed)에서 정렬 방식 및 스타일 변경
- */
+export const InputCheck = ({ isDetailed = false, id, label, isChecked, onChange }: InputCheckProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [text, setText] = useState<string | undefined>('');
 
-export const InputCheck: React.FC<InputCheckProps> = React.memo(
-  ({ isDetailed = false, id, label, isChecked, onChange }) => {
-    return (
-      <CheckWrapper $isDetailed={isDetailed}>
-        <Label $isDetailed={isDetailed} htmlFor={id.toString()}>
-          <CheckboxInput type='checkbox' id={id.toString()} onChange={onChange} defaultChecked={isChecked} />
-          <IconWrapper aria-hidden='true'>
-            <Check />
-          </IconWrapper>
-        </Label>
-        <strong>{label}</strong>
-      </CheckWrapper>
-    );
-  }
-);
+  // 텍스트 상태를 부모로부터 받은 label로 초기화
+  useEffect(() => {
+    setText(label);
+  }, []);
 
+  /**입력 필드의 길이에 따라 width 조절 */
+  useEffect(() => {
+    if (inputRef.current && text) {
+      inputRef.current.style.width = `${Math.max(text.length + 2, 1)}ch`;
+    }
+  }, [text]);
+
+  const handleCahngeInput = handleInputChange(setText);
+
+  return (
+    <CheckWrapper $isDetailed={isDetailed}>
+      <Label $isDetailed={isDetailed} htmlFor={id.toString()}>
+        <CheckboxInput
+          type='checkbox'
+          id={id.toString()}
+          name={isDetailed ? 'check' : label}
+          onChange={onChange}
+          defaultChecked={isChecked}
+        />
+        <IconWrapper aria-hidden='true'>
+          <Check />
+        </IconWrapper>
+      </Label>
+      {isDetailed ? (
+        <>
+          <input
+            type='text'
+            name='name'
+            id='editToDo'
+            autoComplete='off'
+            value={text}
+            onChange={handleCahngeInput}
+            ref={inputRef}
+          />
+        </>
+      ) : (
+        <Link href={`/todos/${id}`}>
+          <strong>{label}</strong>
+        </Link>
+      )}
+    </CheckWrapper>
+  );
+};
+
+// 전체 체크박스 영역 wrapper 스타일
 const CheckWrapper = styled.div<StyledProps>`
   display: flex;
   align-items: center;
-  padding: 0.9rem 1.2rem;
   background: #fff;
   border: 2px solid #0f172a;
   box-sizing: border-box;
@@ -60,32 +103,37 @@ const CheckWrapper = styled.div<StyledProps>`
       text-decoration: line-through;
     }
   }
-`;
 
-const Label = styled.label<StyledProps>`
-  display: flex;
-  align-items: center;
+  &:has(input[type='text']) {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+
+    input[type='text'] {
+      cursor: text;
+      text-decoration: underline;
+    }
+  }
 
   ${(props) =>
     props.$isDetailed
       ? css`
           justify-content: center;
-          strong {
-            text-decoration: underline;
-            font-size: 2rem;
-            font-weight: 700;
-          }
+          padding: 1.6rem 0;
         `
       : css`
           justify-content: flex-start;
-          &:has(input[type='checkbox']:checked) {
-            strong {
-              text-decoration: line-through;
-            }
-          }
+          padding: 0.9rem 1.2rem;
         `}
 `;
 
+// 라벨 안에 체크박스와 아이콘 포함
+const Label = styled.label<StyledProps>`
+  display: flex;
+  align-items: center;
+`;
+
+// 체크 상태 표시 아이콘
 const IconWrapper = styled.i`
   display: flex;
   justify-content: center;
@@ -104,6 +152,7 @@ const IconWrapper = styled.i`
   }
 `;
 
+// 실제 체크박스는 숨기고 focus/checked 상태만 제어
 const CheckboxInput = styled.input`
   position: absolute;
   opacity: 0;
