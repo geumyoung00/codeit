@@ -52,7 +52,7 @@ export const Button = ({ type = 'button', actionType = 'default', onClick, class
     <BtnWrapper $actionType={actionType} className={className}>
       <Btn type={type} className={btnClass} onClick={onClick}>
         {renderIcon()}
-        {label}
+        <span>{label}</span>
       </Btn>
     </BtnWrapper>
   );
@@ -96,7 +96,9 @@ const BtnWrapper = styled.div.attrs((props) => ({
 
         button {
           grid-gap: 0;
-          text-indent: -9999px;
+          span {
+            text-indent: -9999px;
+          }
         }
       }
     `}

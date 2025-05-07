@@ -35,7 +35,7 @@ export default function Home() {
   };
 
   return (
-    <Container className=''>
+    <Container>
       {/* 새로운 할 일 입력폼 */}
       <form onSubmit={handleSubmit} className='w-full flex gap-8 tab:gap-16'>
         <InputText text={text} onChange={handleChange} />

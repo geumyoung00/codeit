@@ -32,6 +32,7 @@ const Header = styled.header`
   position: sticky;
   top: 0;
   box-sizing: border-box;
+  z-index: 100;
 
   h1 {
     text-indent: -9999px;

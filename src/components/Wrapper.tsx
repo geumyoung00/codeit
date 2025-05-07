@@ -24,7 +24,7 @@ const Wrapper = styled.div.attrs((props) => ({
 `;
 
 const Container = styled(Wrapper)`
-  min-height: calc(100vh - 6rem);
+  min-height: calc(100vh - 8.4rem);
   padding-top: 2.4rem;
 
   @media screen and (max-width: 743px) {

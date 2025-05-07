@@ -78,7 +78,7 @@ export default function DetailPage() {
           <Memo memo={todo?.memo} />
         </section>
 
-        <div className='w-full flex gap-7 items-center justify-center my-24 desk:justify-end'>
+        <div className='w-full flex gap-7 items-center justify-center mt-24 pb-24 desk:justify-end'>
           <Button type='submit' actionType={todo!.isCompleted ? 'activeEdit' : 'edit'} />
           <Button actionType='delete' onClick={handleDelete} />
         </div>
